@@ -14,14 +14,15 @@ mod tag;
 use crate::edict::*;
 use crate::etching::*;
 use crate::rune_id::*;
-use crate::varint::*;
-use bitcoin_arch::script;
 use bitcoin_arch::script::builder;
 use serde::{Deserialize, Serialize};
 
 use bitcoin_arch::opcodes;
 use bitcoin_arch::script::builder::ScriptBuilder;
-use bitcoin_arch::script::ScriptBuf;
+use bitcoin_arch::script::{
+    instructions::{Instruction, Instructions},
+    ScriptBuf,
+};
 use bitcoin_arch::transaction::Transaction;
 
 #[derive(Default, Serialize, Deserialize, Debug, PartialEq, Eq)]
@@ -217,16 +218,16 @@ impl Runestone {
     fn payload(transaction: &Transaction) -> Option<Payload> {
         // search transaction outputs for payload
         for output in &transaction.output {
-            let mut instructions = output.script_pubkey.iter();
+            let mut instructions = Instructions::from(output.script_pubkey.as_slice());
 
             // payload starts with OP_RETURN
-            if instructions.next() != Some(&opcodes::all::OP_RETURN.to_u8()) {
+            if instructions.next() != Some(Ok(Instruction::Op(opcodes::all::OP_RETURN))) {
                 continue;
             }
 
             // followed by the protocol identifier, ignoring errors, since OP_RETURN
             // scripts may be invalid
-            if instructions.next() != Some(&Runestone::MAGIC_NUMBER.to_u8()) {
+            if instructions.next() != Some(Ok(Instruction::Op(Runestone::MAGIC_NUMBER))) {
                 continue;
             }
 
@@ -236,7 +237,7 @@ impl Runestone {
             for result in instructions {
                 match result {
                     Ok(Instruction::PushBytes(push)) => {
-                        payload.extend_from_slice(push.as_bytes());
+                        payload.extend_from_slice(push);
                     }
                     Ok(Instruction::Op(_)) => {
                         return Some(Payload::Invalid(Flaw::Opcode));

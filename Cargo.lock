@@ -32,7 +32,7 @@ checksum = "f1fdabc7756949593fe60f30ec81974b613357de856987752631dea1e3394c80"
 [[package]]
 name = "base58"
 version = "0.1.0"
-source = "git+https://github.com/Arch-Network/bitcoin-arch.git#1faf625b84f66d2fbec69fa9f9e6b6486f118244"
+source = "git+https://github.com/Arch-Network/bitcoin-arch.git#b33f165cedf5576de75f1f9407bedf365accd091"
 dependencies = [
  "bitcoin_hashes",
 ]
@@ -58,7 +58,7 @@ checksum = "d965446196e3b7decd44aa7ee49e31d630118f90ef12f97900f262eb915c951d"
 [[package]]
 name = "bitcoin-arch"
 version = "0.1.0"
-source = "git+https://github.com/Arch-Network/bitcoin-arch.git#1faf625b84f66d2fbec69fa9f9e6b6486f118244"
+source = "git+https://github.com/Arch-Network/bitcoin-arch.git#b33f165cedf5576de75f1f9407bedf365accd091"
 dependencies = [
  "base58",
  "base64 0.22.0",
@@ -348,7 +348,7 @@ checksum = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
 [[package]]
 name = "opcodes"
 version = "0.1.0"
-source = "git+https://github.com/Arch-Network/bitcoin-arch.git#1faf625b84f66d2fbec69fa9f9e6b6486f118244"
+source = "git+https://github.com/Arch-Network/bitcoin-arch.git#b33f165cedf5576de75f1f9407bedf365accd091"
 
 [[package]]
 name = "powerfmt"
